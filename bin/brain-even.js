@@ -1,11 +1,12 @@
+#!/usr/bin/env node
 import readlineSync from 'readline-sync';
 
 const successThreshold = 3;
 
-export default (player) => {
-  let successAttempts = 0;
+const play = () => {
+  const player = greeting();
 
-  console.log('Answer "yes" if the number is even, otherwise answer "no".');
+  let successAttempts = 0;
 
   while (successAttempts < successThreshold) {
     if (playRound()) {
@@ -16,6 +17,14 @@ export default (player) => {
   }
 
   analyzeResult(successAttempts, player);
+};
+
+const greeting = () => {
+  console.log('Welcome to the Brain Games!');
+  const name = readlineSync.question('May I have your name? ');
+  console.log(`Hello, ${name}!`);
+  console.log('Answer "yes" if the number is even, otherwise answer "no".');
+  return name;
 };
 
 const playRound = () => {
@@ -43,3 +52,5 @@ const analyzeResult = (attemptsCount, player) => {
     console.log(`Let's try again, ${player}!`);
   }
 };
+
+play();
