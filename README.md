@@ -2,3 +2,6 @@
 [![Actions Status](https://github.com/javazee/frontend-project-44/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/javazee/frontend-project-44/actions)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/4023e3fbc31efdc4abc9/maintainability)](https://codeclimate.com/github/javazee/frontend-project-44/maintainability)
+
+
+[Brain-even asciinema insttuction](https://asciinema.org/a/hxXFcleMOipclfBUR67LGLW9s)
