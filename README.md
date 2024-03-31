@@ -25,3 +25,5 @@
 [Brain-gcd asciinema instruction](https://asciinema.org/a/F3jwb9IcxSuhMJubz3DXGHy1c)
 
 [Brain-progression asciinema instruction](https://asciinema.org/a/LbpVlUNPlGMY2iKkGynwDMQxJ)
+
+[Brain-prime asciinema instruction](https://asciinema.org/a/1a3GthF01pUsYMGdrRkH8FYOW)
