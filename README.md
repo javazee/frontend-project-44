@@ -23,3 +23,5 @@
 [Brain-calc asciinema instruction](https://asciinema.org/a/pds674OzLkvlLFvpevuEwNE2O)
 
 [Brain-gcd asciinema instruction](https://asciinema.org/a/F3jwb9IcxSuhMJubz3DXGHy1c)
+
+[Brain-progression asciinema instruction](https://asciinema.org/a/LbpVlUNPlGMY2iKkGynwDMQxJ)
