@@ -1,17 +1,28 @@
-import readlineSync from 'readline-sync';
 import {
-  successThreshold, greeting, analyzeResult, getRandomInt,
+  successThreshold, introduction, analyzeResult, getRandomInt, matches, getResult, asc,
 } from '../src/index.js';
 
-export default () => {
-  const player = greeting();
+const isPrimeNumber = (number) => {
+  for (let i = 2, s = Math.sqrt(number); i <= s; i += 1) {
+    if (number % i === 0) return false;
+  }
+  return number > 1;
+};
 
-  console.log('Answer "yes" if the number is prime, otherwise answer "no".');
+export default () => {
+  const player = introduction('Answer "yes" if given number is prime. Otherwise answer "no"');
 
   let successAttempts = 0;
 
   while (successAttempts < successThreshold) {
-    if (playRound()) {
+    const limit = 20;
+    const number = getRandomInt(limit);
+    const answer = asc(number);
+    const isPrime = isPrimeNumber(number);
+    const expected = isPrime ? 'yes' : 'no';
+    const isCorrect = matches(isPrime, answer);
+    const result = getResult(isCorrect, answer, expected);
+    if (result) {
       successAttempts += 1;
     } else {
       break;
@@ -19,38 +30,4 @@ export default () => {
   }
 
   analyzeResult(successAttempts, player);
-};
-
-const playRound = () => {
-  const number = getRandomInt(20);
-  console.log(`Question: ${number}`);
-  const answer = readlineSync.question('Your answer: ');
-
-  const isPrime = isPrimeNumber(number);
-
-  if ((isPrime && answer === 'yes') || (!isPrime && answer === 'no')) {
-    console.log('Correct!');
-  } else {
-    console.log(`'${answer}' is wrong answer ;(. Correct answer was '${isPrime ? 'yes' : 'no'}'.`);
-    return false;
-  }
-  return true;
-};
-
-const isPrimeNumber = (number) => {
-  if (number <= 1) {
-    return false;
-  }
-  if (number <= 3) {
-    return true;
-  }
-  if (number % 2 === 0 || number % 3 === 0) {
-    return false;
-  }
-  for (let i = 5; i * i <= number; i += 6) {
-    if (number % i === 0 || number % (i + 2) === 0) {
-      return false;
-    }
-  }
-  return true;
 };

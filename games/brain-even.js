@@ -1,17 +1,20 @@
-import readlineSync from 'readline-sync';
 import {
-  successThreshold, greeting, analyzeResult, getRandomInt,
+  successThreshold, introduction, analyzeResult, getRandomInt, matches, getResult, asc,
 } from '../src/index.js';
 
 export default () => {
-  const player = greeting();
-
-  console.log('Answer "yes" if the number is even, otherwise answer "no".');
+  const player = introduction('Answer "yes" if the number is even, otherwise answer "no".');
 
   let successAttempts = 0;
 
   while (successAttempts < successThreshold) {
-    if (playRound()) {
+    const number = getRandomInt(100);
+    const answer = asc(number);
+    const isEvenNumber = (number % 2 === 0);
+    const expected = isEvenNumber ? 'yes' : 'no';
+    const isCorrect = matches(isEvenNumber, answer);
+    const result = getResult(isCorrect, answer, expected);
+    if (result) {
       successAttempts += 1;
     } else {
       break;
@@ -19,20 +22,4 @@ export default () => {
   }
 
   analyzeResult(successAttempts, player);
-};
-
-const playRound = () => {
-  const number = getRandomInt(100);
-  console.log(`Question: ${number}`);
-  const answer = readlineSync.question('Your answer: ');
-
-  const isEvenNumber = (number % 2 === 0);
-
-  if ((isEvenNumber && answer === 'yes') || (!isEvenNumber && answer === 'no')) {
-    console.log('Correct!');
-  } else {
-    console.log(`'${answer}' is wrong answer ;(. Correct answer was '${isEvenNumber ? 'yes' : 'no'}'.`);
-    return false;
-  }
-  return true;
 };

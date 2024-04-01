@@ -4,6 +4,19 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/4023e3fbc31efdc4abc9/maintainability)](https://codeclimate.com/github/javazee/frontend-project-44/maintainability)
 
 
+### Installing and launhing games
+
+```
+1. install games by command: make install link 
+2. test publish by command: make publish
+3. launch games by commands:
+    brain-even
+    brain-prime
+    brain-gcd
+    brain-progression
+    brain-calc
+```
+
 ###  Asciinema
 
 #### How to create record and upload it. Example below:
