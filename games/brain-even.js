@@ -1,25 +1,13 @@
-import {
-  successThreshold, introduction, analyzeResult, getRandomInt, matches, getResult, asc,
-} from '../src/index.js';
+import { runGame } from '../src/index.js';
+import { getRandomInt } from '../src/utils.js';
 
-export default () => {
-  const player = introduction('Answer "yes" if the number is even, otherwise answer "no".');
+const description = ('Answer "yes" if the number is even, otherwise answer "no".');
 
-  let successAttempts = 0;
+const getExpectedResult = (number) => (number % 2 === 0 ? 'yes' : 'no');
 
-  while (successAttempts < successThreshold) {
-    const number = getRandomInt(100);
-    const answer = asc(number);
-    const isEvenNumber = (number % 2 === 0);
-    const expected = isEvenNumber ? 'yes' : 'no';
-    const isCorrect = matches(isEvenNumber, answer);
-    const result = getResult(isCorrect, answer, expected);
-    if (result) {
-      successAttempts += 1;
-    } else {
-      break;
-    }
-  }
-
-  analyzeResult(successAttempts, player);
+const generateQuestion = () => {
+  const limit = 100;
+  return getRandomInt(limit);
 };
+
+export default () => runGame(description, generateQuestion, getExpectedResult);

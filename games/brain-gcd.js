@@ -1,6 +1,7 @@
-import {
-  successThreshold, introduction, analyzeResult, getRandomInt, getResult, asc,
-} from '../src/index.js';
+import { runGame } from '../src/index.js';
+import { getRandomInt } from '../src/utils.js';
+
+const description = 'Find the greatest common divisor of given numbers.';
 
 const nod = (firstNumber, secondNumber) => {
   if (secondNumber !== 0) {
@@ -10,24 +11,14 @@ const nod = (firstNumber, secondNumber) => {
   return firstNumber;
 };
 
-export default () => {
-  const player = introduction('Find the greatest common divisor of given numbers.');
+const getExpectedResult = ([left, right]) => `${nod(left, right)}`;
 
-  let successAttempts = 0;
-
-  while (successAttempts < successThreshold) {
-    const firstNumber = getRandomInt(100);
-    const secondNumber = getRandomInt(100);
-    const givenNumbers = `${firstNumber} ${secondNumber}`;
-    const expectedResult = nod(firstNumber, secondNumber);
-    const answer = asc(givenNumbers);
-    const isCorrect = answer === `${expectedResult}`;
-    const result = getResult(isCorrect, answer, expectedResult);
-    if (result) {
-      successAttempts += 1;
-    } else {
-      break;
-    }
-  }
-  analyzeResult(successAttempts, player);
+const generateQuestion = () => {
+  const firstNumber = getRandomInt(100);
+  const secondNumber = getRandomInt(100);
+  return [firstNumber, secondNumber];
 };
+
+const decorateQuestion = ([left, right]) => `${left} ${right}`;
+
+export default () => runGame(description, generateQuestion, getExpectedResult, decorateQuestion);

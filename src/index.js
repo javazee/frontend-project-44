@@ -2,11 +2,10 @@ import readlineSync from 'readline-sync';
 
 export const successThreshold = 3;
 
-export const introduction = (question) => {
+export const introduction = () => {
   console.log('Welcome to the Brain Games!');
   const name = readlineSync.question('May I have your name? ');
   console.log(`Hello, ${name}!`);
-  console.log(question);
   return name;
 };
 
@@ -18,25 +17,26 @@ export const analyzeResult = (attemptsCount, player) => {
   }
 };
 
-export const getRandomInt = (limit) => Math.floor(Math.random() * limit);
+export const runGame = (desc, getQuestion, getRightAnswer, decorateQuestion = (obj) => obj) => {
+  const player = introduction();
+  console.log(desc);
 
-export const getRandomFromArray = (signArray) => {
-  const index = Math.floor(Math.random() * signArray.length);
-  return signArray[index];
-};
+  let successAttempts = 0;
 
-export const matches = (result, answer) => (result && answer === 'yes') || (!result && answer === 'no');
-
-export const getResult = (isCorrect, answer, expected) => {
-  if (isCorrect) {
-    console.log('Correct!');
-    return true;
+  while (successAttempts < successThreshold) {
+    const questionData = getQuestion();
+    const question = decorateQuestion(questionData);
+    console.log(`Question: ${question}`);
+    const answer = readlineSync.question('Your answer: ');
+    const expected = getRightAnswer(questionData);
+    if (answer === expected) {
+      console.log('Correct!');
+      successAttempts += 1;
+    } else {
+      console.log(`'${answer}' is wrong answer ;(. Correct answer was '${expected}'.`);
+      break;
+    }
   }
-  console.log(`'${answer}' is wrong answer ;(. Correct answer was '${expected}'.`);
-  return false;
-};
 
-export const asc = (question) => {
-  console.log(`Question: ${question}`);
-  return readlineSync.question('Your answer: ');
+  analyzeResult(successAttempts, player);
 };

@@ -1,33 +1,20 @@
-import {
-  successThreshold, introduction, analyzeResult, getRandomInt, matches, getResult, asc,
-} from '../src/index.js';
+import { runGame } from '../src/index.js';
+import { getRandomInt } from '../src/utils.js';
 
-const isPrimeNumber = (number) => {
+const description = 'Answer "yes" if given number is prime. Otherwise answer "no"';
+
+const isPrime = (number) => {
   for (let i = 2, s = Math.sqrt(number); i <= s; i += 1) {
     if (number % i === 0) return false;
   }
   return number > 1;
 };
 
-export default () => {
-  const player = introduction('Answer "yes" if given number is prime. Otherwise answer "no"');
+const getExpectedResult = (number) => (isPrime(number) ? 'yes' : 'no');
 
-  let successAttempts = 0;
-
-  while (successAttempts < successThreshold) {
-    const limit = 20;
-    const number = getRandomInt(limit);
-    const answer = asc(number);
-    const isPrime = isPrimeNumber(number);
-    const expected = isPrime ? 'yes' : 'no';
-    const isCorrect = matches(isPrime, answer);
-    const result = getResult(isCorrect, answer, expected);
-    if (result) {
-      successAttempts += 1;
-    } else {
-      break;
-    }
-  }
-
-  analyzeResult(successAttempts, player);
+const generateQuestion = () => {
+  const limit = 20;
+  return getRandomInt(limit);
 };
+
+export default () => runGame(description, generateQuestion, getExpectedResult);

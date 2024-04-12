@@ -1,55 +1,34 @@
-import {
-  successThreshold, introduction, analyzeResult, getRandomInt, getResult, asc,
-} from '../src/index.js';
+import { runGame } from '../src/index.js';
+import { getRandomInt } from '../src/utils.js';
 
-const generateSeries = () => {
+const description = 'What number is missing in the progression?';
+
+const generateQuestion = () => {
   const size = 10;
   const maxStep = 10;
+  const indexToHide = getRandomInt(size);
   const startElement = getRandomInt(100);
-  const step = getRandomInt(maxStep);
+  const step = getRandomInt(maxStep) + 1;
   const seriesOfNumber = [];
   for (let i = 0; i < size; i += 1) {
     const number = startElement + (step * i);
     seriesOfNumber.push(number);
   }
-  return seriesOfNumber;
+  return [indexToHide, seriesOfNumber];
 };
 
-const makeQuestion = (series, indexToHide) => {
-  let question = '';
+const getExpectedResult = ([indexToHide, seriesOfNumber]) => `${seriesOfNumber[indexToHide]}`;
 
-  for (let i = 0; i < series.length; i += 1) {
-    if (indexToHide === i) {
+const decorateQuestion = ([indexToHide, seriesOfNumber]) => {
+  let question = '';
+  for (let i = 0; i < seriesOfNumber.length; i += 1) {
+    if (i === indexToHide) {
       question += '.. ';
     } else {
-      question += `${series[i]} `;
+      question += `${seriesOfNumber[i]} `;
     }
   }
   return question;
 };
 
-const playRound = () => {
-  const seriesOfNumber = generateSeries();
-  const indexToHide = getRandomInt(seriesOfNumber.length);
-  const question = makeQuestion(seriesOfNumber, indexToHide);
-  const answer = asc(question);
-  const expected = `${seriesOfNumber[indexToHide]}`;
-  const isCorrect = answer === expected;
-  return getResult(isCorrect, answer, expected);
-};
-
-export default () => {
-  const player = introduction('What number is missing in the progression?');
-
-  let successAttempts = 0;
-
-  while (successAttempts < successThreshold) {
-    if (playRound()) {
-      successAttempts += 1;
-    } else {
-      break;
-    }
-  }
-
-  analyzeResult(successAttempts, player);
-};
+export default () => runGame(description, generateQuestion, getExpectedResult, decorateQuestion);

@@ -1,36 +1,27 @@
-import {
-  successThreshold, introduction, analyzeResult, getRandomInt, getRandomFromArray, getResult, asc,
-} from '../src/index.js';
+import { runGame } from '../src/index.js';
+import { getRandomInt, getRandomFromArray } from '../src/utils.js';
 
-const calculate = (left, operator, right) => {
+const description = 'What is the result of the expression?';
+
+const getExpectedResult = (elements) => {
+  const operator = elements[1];
+  const left = elements[0];
+  const right = elements[2];
   if (operator === '+') {
-    return left + right;
+    return `${left + right}`;
   } if (operator === '-') {
-    return left - right;
+    return `${left - right}`;
   }
-  return left * right;
+  return `${left * right}`;
 };
 
-export default () => {
-  const player = introduction('What is the result of the expression?');
-
-  let successAttempts = 0;
-
-  while (successAttempts < successThreshold) {
-    const leftOperand = getRandomInt(100);
-    const rightOperand = getRandomInt(10);
-    const operator = getRandomFromArray(['+', '-', '*']);
-    const expression = `${leftOperand} ${operator} ${rightOperand}`;
-    const expectedResult = calculate(leftOperand, operator, rightOperand);
-    const answer = asc(expression);
-    const isCorrect = answer === `${expectedResult}`;
-    const result = getResult(isCorrect, answer, expectedResult);
-    if (result) {
-      successAttempts += 1;
-    } else {
-      break;
-    }
-  }
-
-  analyzeResult(successAttempts, player);
+const generateQuestion = () => {
+  const leftOperand = getRandomInt(100);
+  const rightOperand = getRandomInt(10);
+  const operator = getRandomFromArray(['+', '-', '*']);
+  return [leftOperand, operator, rightOperand];
 };
+
+const decorateQuestion = (elements) => `${elements[0]} ${elements[1]} ${elements[2]}`;
+
+export default () => runGame(description, generateQuestion, getExpectedResult, decorateQuestion);
