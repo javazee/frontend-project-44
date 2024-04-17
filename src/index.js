@@ -17,23 +17,21 @@ export const analyzeResult = (attemptsCount, player) => {
   }
 };
 
-export const runGame = (desc, getQuestion, getRightAnswer, decorateQuestion = (obj) => obj) => {
+export const runGame = (description, getQuestionAndAnswer) => {
   const player = introduction();
-  console.log(desc);
+  console.log(description);
 
   let successAttempts = 0;
 
   while (successAttempts < successThreshold) {
-    const questionData = getQuestion();
-    const question = decorateQuestion(questionData);
+    const [question, expectedResult] = getQuestionAndAnswer();
     console.log(`Question: ${question}`);
     const answer = readlineSync.question('Your answer: ');
-    const expected = getRightAnswer(questionData);
-    if (answer === expected) {
+    if (answer === expectedResult) {
       console.log('Correct!');
       successAttempts += 1;
     } else {
-      console.log(`'${answer}' is wrong answer ;(. Correct answer was '${expected}'.`);
+      console.log(`'${answer}' is wrong answer ;(. Correct answer was '${expectedResult}'.`);
       break;
     }
   }
